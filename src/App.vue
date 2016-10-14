@@ -128,4 +128,15 @@ body {
   width: 100px;
   height: 100px
 }
+.bonsai-content {
+  margin-left: 1em;
+}
+.bonsai-collapsed > .bonsai-item:hover {
+  background: rgba(255,255,0,0.3)
+}
+.bonsai-expanded > .bonsai-item:hover {
+  background: rgba(255,0,0,0.3)
+}
+
+
 </style>

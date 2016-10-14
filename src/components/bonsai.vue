@@ -1,19 +1,14 @@
 <template>
-  <div v-bind:class="{ expanded: expanded }">
-
-    <div class='item' @click="expanded = (expanded ? false : true)">
-      <div v-if="isLeaf" class='expand-btn'>
-        <span v-if="expanded" class='collapse'><slot name='collapse'>{{ collapse }}</slot></span>
-        <span v-else          class='expand'>  <slot name='expand'>  {{ expand }}  </slot></span>
-      </div>
-      <div class='item-content'>
-        <span v-if="hasItem"><slot>{{ item }}</slot></span>
-        <span v-else>{{ item }}</span>
-      </div>
+  <div class='bonsai' v-bind:class="{ 'bonsai-expanded': (hasContent && expanded), 'bonsai-collapsed': (hasContent && !expanded) }">
+    <div class='bonsai-item' @click="expanded = (expanded ? false : true)">
+      <template v-if="hasContent">
+        <span v-if="expanded" class='bonsai-indicator bonsai-collapse'><slot name='collapse'>{{ collapse }}</slot></span>
+        <span v-else class='bonsai-indicator bonsai-expand'><slot name='expand'>{{ expand }}</slot></span>
+      </template>
+      <span v-if="hasItem" class='bonsai-item-content'><slot>{{ item }}</slot></span>
+      <span v-else class='bonsai-item-content'>{{ item }}</span>
     </div>
-
-    <div class='content' v-if="expanded && isLeaf"><slot name='content'>{{ content }}</slot></div>
-
+    <div class='bonsai-content' v-if="expanded && hasContent"><slot name='content'>{{ content }}</slot></div>
   </div>
 </template>
 <script>
@@ -57,24 +52,14 @@ export default {
       // That's an inconcistency in the Vue API. The left-hand site of the || is the workaround
       return (!('default' in this.$slots)) || this.$slots.default[0].text.trim() !== ''
     },
-    isLeaf: function () {
+    hasContent: function () {
       return ('content' in this.$slots) || this.content !== ''
     }
   }
 }
 </script>
 <style scoped>
-.item {
-  display: block;
-}
-.item-content, .expand-btn {
+.bonsai-item-content, .bonsai-indicator {
   display: inline-block;
-}
-.item-content {
-  padding-left: .2em;
-}
-.content {
-  display: block;
-  margin-left: 0.5em;
 }
 </style>
