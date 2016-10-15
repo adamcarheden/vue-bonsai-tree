@@ -16,7 +16,7 @@ export default {
   props: {
     item: {
       type: String,
-      default: 'Bonsai!'
+      default: ''
     },
     expand: {
       type: String,
@@ -49,8 +49,12 @@ export default {
   computed: {
     hasItem: function () {
       // Elements with no body (<bonsai/> and <bonsai></bonsai>) result in slots being empty
-      // That's an inconcistency in the Vue API. The left-hand site of the || is the workaround
-      return (!('default' in this.$slots)) || this.$slots.default[0].text.trim() !== ''
+      if (!('default' in this.$slots)) return false
+      if (this.$slots.default.length <= 0) return false // I think this can't ever happen
+      // If text is undefined, it's an element that hasn't been consumed by another slot.
+      // If the user bothers with that, we treat it as the item. We don't even check if it's empty
+      if (this.$slots.default[0].text !== undefined && this.$slots.default[0].text.trim() === '') return false
+      return true
     },
     hasContent: function () {
       return ('content' in this.$slots) || this.content !== ''

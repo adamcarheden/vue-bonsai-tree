@@ -21,5 +21,12 @@ module.exports = {
     'padded-blocks': 0,
     'key-spacing': 0,
     'spaced-comment':0,
+    'no-multiple-empty-lines': 0,
+    'comma-spacing': 0,
+    'comma-dangle': 0,
+    'no-trailing-spaces': 0,
+    'standard/object-curly-even-spacing': 0,
+    'space-before-function-paren': 0,
+    'space-infix-ops': 0,
   }
 }
