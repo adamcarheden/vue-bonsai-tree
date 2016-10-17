@@ -1,10 +1,6 @@
 <template>
   <div id="app">
 
-  <bonsai item='Hello, World!'/>
-
-  <hr/>
-
   <!-- A simple root element: It's content becomes the item text, except for the 'content' slot, which appears below and can be shown or hidden -->
   <bonsai initialState='expanded'>
     Tree Root

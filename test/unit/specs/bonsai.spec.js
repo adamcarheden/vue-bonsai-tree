@@ -3,27 +3,64 @@ import bonsai from 'src/components/bonsai'
 
 describe('bonsai.vue', () => {
 
+  var testBonsai = function(vm, item, content, expanded, expand, collapse) {
 
+    const defaults = {
+      item: '',
+      expand: '+',
+      collapse: '-',
+      content: '',
+      expanded: false,
+    }
 
-  var testBonsai = function(vm, item, children, expand, collapse, expanded) {
+    // Gives Vue a chance to update data.
+    // Without this slots are still in their original positions
+
     // Test our own arguments
     expect(vm, 'Argument vm to testBonsai is undefind').not.to.equal(undefined)
-    expect(vm instanceof Object, 'Argument vm to testBonsai is a '+Object.prototype.toString.call(vm)).to.equal(true)
+    expect(vm instanceof Object, `Argument vm to testBonsai is a ${Object.prototype.toString.call(vm)}`).to.equal(true)
     // typeof is broken due to babel. instanceof doesn't seem to work with strings. karma's to.be.a throws an error from chai. Why must everything be perpetually broken!!!
     // expect(item, 'Argument item to testBonsai is a '+Object.prototype.toString.call(item)).to.be.a(String)
 
     // We should always have the bonsai class
-    expect(vm.$el.attributes.getNamedItem('class').value, 'bonsai class missing').to.equal('bonsai')
+    expect(vm.$el.attributes.getNamedItem('class').value, 'bonsai class missing').to.match(/^( .*)?bonsai( .*)?$/)
 
-    // Structure
+    // Item
     const items = vm.$el.querySelectorAll('.bonsai-item')
     expect(items.length, 'One bonsai-item').to.equal(1)
     const itemContents = items[0].querySelectorAll('.bonsai-item-content')
     expect(itemContents.length, 'One bonsai-item-content').to.equal(1)
+    console.log(itemContents[0])
     if (item !== undefined) expect(itemContents[0].textContent.trim(),'item content').to.equal(item)
 
+    // Content
+    if (content !== undefined) {
+      const exp = (exp !== undefined) ? defaults.expanded : expanded
+      const ind = exp
+        ? ((collapse === undefined) ? defaults.collapse : collapse)
+        : ((expand === undefined) ? defaults.expand : expanded)
+      const itemInd = items[0].querySelectorAll('.bonsai-indicator')
+      const bonsaiContent = vm.$el.querySelectorAll('.bonsai-content')
+      if (content !== false) { 
+        expect(itemInd.length, 'One bonsai-indicator').to.equal(1)
+        expect(itemInd[0].textContent.trim(),'indicator').to.equal(ind)
+
+        if (exp === true) {
+          expect(bonsaiContent.length, `Content not rendered`).to.equal(1)
+          expect(bonsaiContent[0].textContent.trim(),'content').to.equal(content)
+        }
+
+      } else {
+        expect(itemInd.length, 'Zero bonsai-indicator').to.equal(1)
+      }
+      // Content is not rendered unless it exists AND is expended
+      if (content === false || !exp) {
+        expect(bonsaiContent.length, `Content should not be rendered, but we found it`).to.equal(0)
+      }
+    }
   }
 
+/*
   // <bonsai/>, <bonsai><bonsai>
   it('empty bonsai', () => {
     const vm = new Vue({
@@ -70,7 +107,25 @@ describe('bonsai.vue', () => {
       el: document.createElement('div'),
       render: (h) => h(bonsai, {attrs: { item: attr}}, [item])
     })
-    testBonsai(vm,item) 
+    testBonsai(vm, item) 
+  })
+
+*/
+  // <bonsai>item text <div slot='content'>kids</slot><bonsai>
+  it('Content via slot', () => {
+    var item = 'Hello, Bonsai!'
+    var content = 'Goodbye, Cruel World!'
+    const vm = new Vue({
+      el: document.createElement('div'),
+      render: (h) => h(bonsai, 
+        {attrs: {expanded: true}},
+        [
+          item, 
+          h('div', { slot:'content' }, content)
+        ]
+      )
+    })
+    testBonsai(vm,item, content) 
   })
 
   // <bonsai>Item text<div slot='content'>Child text</div><bonsai>
