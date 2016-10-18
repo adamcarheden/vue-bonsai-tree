@@ -1,51 +1,74 @@
 <template>
   <div id="app">
 
-  <!-- A simple root element: It's content becomes the item text, except for the 'content' slot, which appears below and can be shown or hidden -->
-  <bonsai initialState='expanded'>
-    Tree Root
-
-    <!-- The 'content' slot can contain other <bonsai> elements, creating a tree -->
+  <bonsai >
+    A Bonsai element can appear anywhere. <br/>Every outermost element can be the root of a tree (<span style='font-style: oblique; color: red'>&larr; Click anywhere</span>)
     <div slot='content'>
 
-      <!-- We can define content as an attribute instead of a slot -->
-      <bonsai content='Quick, hide me! Hide me!'>
-        It's the cops
-      </bonsai>
-
-      <!-- Slots take precedence over attributes -->
-      <bonsai content="You'll never see me">
-        Do you see me?
+      <bonsai>
+        Inner elements with the <span class='hl'>slot=content</span> attribute will be hidden or shown when you click the parent.
         <span slot='content'>I see you</span>
+        <span slot='content'>I see you too</span>
       </bonsai>
 
-      <!-- We can define the item text as an attribute too -->
-      <bonsai item='Look at me'>
+      <bonsai content="This is an attribute of its parent. Since it has no children of its own, the indicator (+/-) on the left isn't displayed">
+        You can also define simple text content as an attribute.
+      </bonsai>
+
+      <bonsai content="You'll never see me">
+        If you have both the attribute and the slot, the slot takes precidence
+        <span slot='content'>This is the slot. The parent has an attribute too, but you'll never see it.</span>
+      </bonsai>
+
+      <bonsai>
+        Each bonsai element may have only one content (slot or attribute). For multiple children, put more bonsai elements in the element with the content slot.
         <div slot='content'>
-          <!-- But any text in the body constitutes a slot for the item, so that slot still takes precedence over the attribute -->
-          <bonsai item='The invisible man'>
-            Keven Bacon
+          <bonsai>
+            Son
+            <div slot='content'>
+              <bonsai>Grandson</bonsai>
+              <bonsai>Granddaughter
+                <span slot='content'>Great-granddaughter</slot>
+              </bonsai>
+            </div>
+          </bonsai>
+          <bonsai>
+            Daughter
+            <span slot='content'>Grandson</span>
           </bonsai>
         </div>
       </bonsai>
 
       <!-- We can even customize the expand/collapse buttons -->
       <bonsai>
-        Click me
+        Don't like the +/-? You can customize them by adding elements with <span class='hl'>slot=expand</span> or <span class='hl'>slot=collapse</span> attributes.
         <span slot='expand'>&larr;</span>
         <span slot='collapse'>&rarr;</span>
         <div slot='content'>
-          <!-- Attributes work for that as well -->
-          <bonsai expand="&" collapse='|'>
-            Me Too
+          <bonsai expand='<' collapse='>' >
+            <span class='hl'>expand</span> and <span class='hl'>collapse</span> attributes on the bonsai element work too.
+            <span slot='content'>Slots take precidence though.</span>
+          </bonsai>
+          <bonsai class='style-indicator' expand='' collapse=''>
+            Or you can set expand/collapse to empty strings and do it with CSS.
+            <div slot='content'>
+              Because real programmers don't mix style and content. ;)
+            </div>
+          </bonsai>
+        </div>
+      </bonsai>
+
+      <bonsai>
+        Children aren't indented by default.
+        <div slot='content'>
+          <bonsai>
+            You can do that with CSS too.
             <span slot='content'>
-              <!-- You can, of course, mix and match -->
-              <bonsai item='Deep' collapse="^" >
-                <span slot='content'>Throat</span>
-                <!-- That's handy, because Vue escapes HTML entities (like &Darr; below) that it finds in attirbutes -->
-                <span slot='expand'>&Darr;</span>
+              <bonsai>
+                mouseover highlighting is done with css too. Just select based on the <span class='hl'>bonsai-expanded</span> and <span class='hl'>bonsai-collapsed</span> classes set on the bonsai element when the user clicks.
+                <span slot='content'>Don't forget to use <span class='hl'>&gt;</span> in your css to select only direct decendents rather than all decendents.</span>
               </bonsai>
-            </span> 
+            </span>
           </bonsai>
         </div>
       </bonsai>
@@ -56,25 +79,6 @@
     </div>
   </bonsai>
 
-  <hr/>
-    <bonsai>
-      Root node a={{ obj.a }}
-      <div slot='content'>
-
-        <bonsai>
-          First Child
-          <div slot='content'>
-            <bonsai>I'm a leaf {{obj.b}}</bonsai>
-          </div>
-        </bonsai>
-
-        <bonsai>
-          Second Child
-          <div slot='content'>grandkid {{obj.c}} {{obj.d}}</div>
-        </bonsai>
-
-      </div>
-    </bonsai>
   </div>
 </template>
 
@@ -128,8 +132,13 @@ body {
   width: 100px;
   height: 100px
 }
-.bonsai-content {
+.bonsai-content, .bonsai.no-content .bonsai-item-content { 
   margin-left: 1em;
+}
+.bonsai-indicator {
+  width: 1em;
+  display: inline-block;
+  text-align: right;
 }
 .bonsai-collapsed > .bonsai-item:hover {
   background: rgba(255,255,0,0.3)
@@ -137,6 +146,14 @@ body {
 .bonsai-expanded > .bonsai-item:hover {
   background: rgba(255,0,0,0.3)
 }
-
+.hl {
+  font-weight: bold;
+}
+.style-indicator.bonsai-expanded > .bonsai-item:before {
+  content: '<--'
+}
+.style-indicator.bonsai-collapsed > .bonsai-item:before {
+  content: '-->'
+}
 
 </style>

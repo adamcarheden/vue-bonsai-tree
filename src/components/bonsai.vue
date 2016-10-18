@@ -1,12 +1,7 @@
 <template>
-  <div class='bonsai' v-bind:class="{ 'bonsai-expanded': (hasContent && expanded), 'bonsai-collapsed': (hasContent && !expanded) }">
+  <div class='bonsai' v-bind:class="{ 'bonsai-expanded': (hasContent && expanded), 'bonsai-collapsed': (hasContent && !expanded), content: hasContent, 'no-content': !hasContent }">
     <div class='bonsai-item' @click="expanded = (expanded ? false : true)">
-      <template v-if="hasContent">
-        <span v-if="expanded" class='bonsai-indicator bonsai-collapse'><slot name='collapse'>{{ collapse }}</slot></span>
-        <span v-else class='bonsai-indicator bonsai-expand'><slot name='expand'>{{ expand }}</slot></span>
-      </template>
-      <span v-if="hasItem" class='bonsai-item-content'><slot>{{ item }}</slot></span>
-      <span v-else class='bonsai-item-content'>{{ item }}</span>
+      <template v-if="hasContent"><span v-if="expanded" class='bonsai-indicator bonsai-collapse'><slot name='collapse'>{{ collapse }}</slot></span><span v-else class='bonsai-indicator bonsai-expand'><slot name='expand'>{{ expand }}</slot></span></template><span v-if="hasItem" class='bonsai-item-content'><slot>{{ item }}</slot></span><span v-else class='bonsai-item-content'>{{ item }}</span>
     </div>
     <div class='bonsai-content' v-if="expanded && hasContent"><slot name='content'>{{ content }}</slot></div>
   </div>
@@ -62,8 +57,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.bonsai-item-content, .bonsai-indicator {
-  display: inline-block;
-}
-</style>
