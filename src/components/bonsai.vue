@@ -1,11 +1,25 @@
 <template>
-  <div class='bonsai' v-bind:class="{ 'bonsai-expanded': (hasContent && expanded), 'bonsai-collapsed': (hasContent && !expanded), content: hasContent, 'no-content': !hasContent }">
-    <div class='bonsai-item' @click="expanded = (expanded ? false : true)">
-      <template v-if="hasContent"><span v-if="expanded" class='bonsai-indicator bonsai-collapse'><slot name='collapse'>{{ collapse }}</slot></span><span v-else class='bonsai-indicator bonsai-expand'><slot name='expand'>{{ expand }}</slot></span></template><span v-if="hasItem" class='bonsai-item-content'><slot>{{ item }}</slot></span><span v-else class='bonsai-item-content'>{{ item }}</span>
+  <div class='bonsai' v-bind:class="{ 'bonsai-expanded': (hasContent && expanded), 'bonsai-collapsed': (hasContent && !expanded), 'bonsai-has-content': hasContent, 'bonsai-no-content': !hasContent }">
+    <div class='bonsai-indicator' @click="toggle">
+      <template v-if="hasContent">
+        <span v-if="expanded" class='bonsai-collapse'><slot name='collapse'>{{ collapse }}</slot></span>
+        <span v-else          class='bonsai-expand'  ><slot name='expand'>{{ expand }}</slot></span>
+      </template>
     </div>
-    <div class='bonsai-content' v-if="expanded && hasContent"><slot name='content'>{{ content }}</slot></div>
+    <div class='bonsai-item'>
+      <div class='bonsai-item-content' @click="toggle">
+        <template v-if="hasItem"><slot>{{ item }}</slot></template>
+        <template v-else>{{ item }}</template>
+      </div>
+      <div class='bonsai-content' v-if="expanded && hasContent"><slot name='content'>{{ content }}</slot></div>
+    </div>
   </div>
 </template>
+<style scoped>
+.bonsai-indicator, .bonsai-item {
+  display: table-cell;
+}
+</style>
 <script>
 export default {
   props: {
@@ -54,6 +68,11 @@ export default {
     hasContent: function () {
       return ('content' in this.$slots) || this.content !== ''
     }
+  },
+  methods: {
+    toggle: function () {
+      this.expanded = !this.expanded
+    },
   }
 }
 </script>

@@ -116,22 +116,6 @@ body {
   height: 100%;
 }
 
-#app {
-  color: #2c3e50;
-  margin-top: -100px;
-  max-width: 600px;
-  font-family: Source Sans Pro, Helvetica, sans-serif;
-}
-
-#app a {
-  color: #42b983;
-  text-decoration: none;
-}
-
-.logo {
-  width: 100px;
-  height: 100px
-}
 .bonsai-content, .bonsai.no-content .bonsai-item-content { 
   margin-left: 1em;
 }
@@ -140,19 +124,25 @@ body {
   display: inline-block;
   text-align: right;
 }
-.bonsai-collapsed > .bonsai-item:hover {
+.bonsai-item-content {
+  margin-bottom: 0.5em;
+}
+.bonsai-content {
+  margin-bottom: 1em;
+}
+.bonsai-collapsed > .bonsai-item:hover > .bonsai-item-content {
   background: rgba(255,255,0,0.3)
 }
-.bonsai-expanded > .bonsai-item:hover {
+.bonsai-expanded > .bonsai-item:hover > .bonsai-item-content {
   background: rgba(255,0,0,0.3)
 }
 .hl {
   font-weight: bold;
 }
-.style-indicator.bonsai-expanded > .bonsai-item:before {
+.style-indicator.bonsai-expanded > .bonsai-item > .bonsai-item-content:before {
   content: '<--'
 }
-.style-indicator.bonsai-collapsed > .bonsai-item:before {
+.style-indicator.bonsai-collapsed > .bonsai-item > .bonsai-item-content:before {
   content: '-->'
 }
 

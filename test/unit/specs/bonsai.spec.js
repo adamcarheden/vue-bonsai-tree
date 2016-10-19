@@ -27,8 +27,28 @@ describe('bonsai.vue', () => {
     //expect(ex.item, 'Argument item to testBonsai is a '+Object.prototype.toString.call(ex.item)).to.be.a(String)
     //expect(ex.item, 'Argument item to testBonsai is a '+(typeof ex.item)).to.be.a(String)
 
+    const hasContent = ex.content !== ''
+
     // We should always have the bonsai class
     expect(vm.$el.attributes.getNamedItem('class').value, 'bonsai class missing').to.match(/^( .*)?bonsai( .*)?$/)
+
+    // ...and one to indicate if there's content
+    const contentClass = hasContent ? 'bonsai-has-content' : 'bonsai-no-content'
+    expect(vm.$el.attributes.getNamedItem('class').value, `${contentClass} class missing`).to.match(new RegExp(`^(.* )?${contentClass}( .*)?$`))
+
+    // Indicator
+    const bonsaiIndicators = vm.$el.querySelectorAll('.bonsai-indicator')
+    expect(bonsaiIndicators.length, 'One bonsai-indicator').to.equal(1)
+    if (hasContent) {
+      // If there's content, we must have an expanded or collapsed class at the top level
+      const stateClass = ex.expanded ? 'bonsai-expanded' : 'bonsai-collapsed'
+      expect(vm.$el.attributes.getNamedItem('class').value, `${stateClass} class missing`).to.match(new RegExp(`^(.* )?${stateClass}( .*)?$`))
+      var indicatorClass = ex.expanded ? 'bonsai-collapse' : 'bonsai-expand'
+      // And we must have an indicator
+      const indicators = bonsaiIndicators[0].querySelectorAll(`.${indicatorClass}`)
+      expect(indicators.length, `One ${indicatorClass}`).to.equal(1)
+      expect(indicators[0].textContent.trim(),'indicator').to.equal(ex.expanded ? ex.collapse : ex.expand)
+    }
 
     // Item
     const items = vm.$el.querySelectorAll('.bonsai-item')
@@ -38,26 +58,11 @@ describe('bonsai.vue', () => {
     expect(itemContents[0].textContent.trim(),'item content').to.equal(ex.item)
 
     // Content
-    const ind = ex.expanded ? ex.collapse : ex.expand
-    const itemInd = items[0].querySelectorAll('.bonsai-indicator')
-    const bonsaiContent = vm.$el.querySelectorAll('.bonsai-content')
-    if (ex.content !== '') { 
-
-      // Indicator should always be rendered if we have content
-      expect(itemInd.length, 'One bonsai-indicator').to.equal(1)
-      expect(itemInd[0].textContent.trim(),'indicator').to.equal(ind)
-
-      // Content should be rendered if it's expanded
-      if (ex.expanded === true) {
-        expect(bonsaiContent.length, `Content not rendered`).to.equal(1)
-        expect(bonsaiContent[0].textContent.trim(),'content').to.equal(ex.content)
-      }
-
+    const bonsaiContent = items[0].querySelectorAll('.bonsai-content')
+    if (hasContent && ex.expanded) {
+      expect(bonsaiContent.length, `Content not rendered`).to.equal(1)
+      expect(bonsaiContent[0].textContent.trim(),'content').to.equal(ex.content)
     } else {
-      expect(itemInd.length, 'Zero bonsai-indicator').to.equal(0)
-    }
-    // Content is not rendered unless it exists AND is expended
-    if (ex.content === '' || !ex.expanded) {
       expect(bonsaiContent.length, `Content should not be rendered, but we found it`).to.equal(0)
     }
   }
