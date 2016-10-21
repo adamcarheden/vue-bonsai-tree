@@ -8,12 +8,22 @@ module.exports = {
     // see nightwatch.conf.js
     const devServer = browser.globals.devServerURL
 
+    // Make sure clicking expands things
     browser
       .url(devServer)
       .waitForElementVisible('#app', 5000)
-      .assert.elementPresent('.logo')
-      .assert.containsText('h1', 'Hello Vue!')
-      .assert.elementCount('p', 3)
+      .assert.elementPresent('#app > #root > .bonsai-indicator')
+      .assert.elementPresent('#app > #root > .bonsai-indicator > .bonsai-expand')
+      .assert.elementPresent('#app > #root > .bonsai-item')
+      .assert.cssClassPresent('#app > #root','bonsai')
+      .assert.cssClassPresent('#app > #root','bonsai-collapsed')
+      .assert.cssClassPresent('#app > #root','bonsai-has-content')
+      .assert.elementNotPresent('#app > #root > .bonsai-item > .bonsai-content')
+      .click('#app > #root > .bonsai-indicator')
+      .waitForElementPresent('#app > #root > .bonsai-item > .bonsai-content', 2000)
+      .assert.elementPresent('#app > #root > .bonsai-indicator > .bonsai-collapse')
+      .assert.cssClassPresent('#app > #root','bonsai-expanded')
       .end()
+
   }
 }

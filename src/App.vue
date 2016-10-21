@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-  <bonsai >
+  <bonsai id='root'>
     A Bonsai element can appear anywhere. <br/>Every outermost element can be the root of a tree (<span style='font-style: oblique; color: red'>&larr; Click anywhere</span>)
     <div slot='content'>
 
