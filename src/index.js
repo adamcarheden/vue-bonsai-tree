@@ -1,5 +1,5 @@
-import Bonsai from './components/bonsai'
+import BonsaiTree from './components/bonsai-tree'
 
 export {
-  Bonsai
+  BonsaiTree
 }

@@ -6,8 +6,8 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: projectRoot,
-    filename: 'vue-bonsai.js',
-    library: 'vue-bonsai',
+    filename: 'vue-bonsai-tree.js',
+    library: 'vue-bonsai-tree',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
@@ -32,7 +32,6 @@ module.exports = {
       }
     ]
   },
-/*
   plugins: [
     new webpack.optimize.UglifyJsPlugin( {
       minimize : true,
@@ -43,5 +42,4 @@ module.exports = {
       }
     } )
   ]
-*/
 }

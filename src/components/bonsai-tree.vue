@@ -1,22 +1,22 @@
 <template>
-	<div class='bonsai' v-bind:class="{ 'bonsai-expanded': (hasContent && expanded), 'bonsai-collapsed': (hasContent && !expanded), 'bonsai-has-content': hasContent, 'bonsai-no-content': !hasContent }">
-		<div class='bonsai-indicator' @click="toggle">
+	<div class='bonsai-tree' v-bind:class="{ 'bonsai-tree-expanded': (hasContent && expanded), 'bonsai-tree-collapsed': (hasContent && !expanded), 'bonsai-tree-has-content': hasContent, 'bonsai-tree-no-content': !hasContent }">
+		<div class='bonsai-tree-indicator' @click="toggle">
 			<template v-if="hasContent">
-				<span v-if="expanded" class='bonsai-collapse'><slot name='collapse'>{{ collapse }}</slot></span>
-				<span v-else          class='bonsai-expand'  ><slot name='expand'>{{ expand }}</slot></span>
+				<span v-if="expanded" class='bonsai-tree-collapse'><slot name='collapse'>{{ collapse }}</slot></span>
+				<span v-else          class='bonsai-tree-expand'  ><slot name='expand'>{{ expand }}</slot></span>
 			</template>
 		</div>
-		<div class='bonsai-item'>
-			<div class='bonsai-item-content' @click="toggle">
+		<div class='bonsai-tree-item'>
+			<div class='bonsai-tree-item-content' @click="toggle">
 				<template v-if="hasItem"><slot>{{ item }}</slot></template>
 				<template v-else>{{ item }}</template>
 			</div>
-			<div class='bonsai-content' v-if="expanded && hasContent"><slot name='content'>{{ content }}</slot></div>
+			<div class='bonsai-tree-content' v-if="expanded && hasContent"><slot name='content'>{{ content }}</slot></div>
 		</div>
 	</div>
 </template>
 <style scoped>
-.bonsai-indicator, .bonsai-item {
+.bonsai-tree-indicator, .bonsai-tree-item {
 	display: table-cell;
 }
 </style>
@@ -57,7 +57,7 @@ export default {
 	},
 	computed: {
 		hasItem: function () {
-			// Elements with no body (<bonsai/> and <bonsai></bonsai>) result in slots being empty
+			// Elements with no body (<bonsai-tree/> and <bonsai-tree></bonsai-tree>) result in slots being empty
 			if (!('default' in this.$slots)) return false
 			if (this.$slots.default.length <= 0) return false // I think this can't ever happen
 			// If text is undefined, it's an element that hasn't been consumed by another slot.

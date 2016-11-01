@@ -3,9 +3,29 @@
   <head>
     <meta charset="utf-8">
     <title>vue-bonsai</title>
+		<script type='text/javascript' src='/static/rosetta-markdown.js'></script>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/default.min.css">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+		<script>
+    window['rosetta-markdown'].marked.setOptions({
+        highlight: function(code) {
+            return hljs.highlightAuto(code).value;
+        }
+    });
+		</script>
+		<style>
+#readme, #id {
+	display: inline-block;
+}
+		</style>
   </head>
   <body>
+
+		<h1>Bonsai Tree Example</h1>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+
+		<div id='readme' ><script type='text/markdown' src='/static/README.md'></script></div>
+
   </body>
 </html>
