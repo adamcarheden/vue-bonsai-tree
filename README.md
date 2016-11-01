@@ -4,7 +4,9 @@
 
 If you can munge your data into a hierarchy of javascript objects in a prescribed format, there are [plenty](https://github.com/10quality/vue-tree-view) of [other](https://github.com/weibangtuo/vue-tree) Vue tree components for that. I needed one to render hand-coded markup rather than an arbitrary hierarchy of data. 
 
+## Demo
 
+[Live Demo](https://plnkr.co/edit/OHcXtj?p=preview)
 
 ## Install
 ``` bash
@@ -22,7 +24,7 @@ npm install vue-bonsai-tree --save
 	<bonsai-tree>
 		Parent
 		<div slot='content' expand='more'>
-			<slot='collapse'>less</slot>
+			<div slot='collapse'>less</div>
 			<bonsai-tree content='Grandkid'>Child</bonsai-tree>
 		</div>
 	</bonsai-tree>
