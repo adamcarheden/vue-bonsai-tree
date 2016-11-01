@@ -51,6 +51,13 @@ npm test
 npm release
 
 ```
+
+Don't be intimidated by all the files. This project uses the [vue-cli](https://github.com/vuejs/vue-cli) webpack boilerplate to get up and running with webpack, live reload, karma and nightwatch quickly. The only files you really need to touch will be:
+
+* src/components/bonsai-tree.vue
+* test/unit/specs/bonsai-tree.spec.js
+* test/e2e/specs/bonsai-tree.js
+
 PRs welcome. 
 Emiting expand/collapse events would be a nice feature. (15 min to code, 2 hours to write automated regression testing ;)
 More complete e2e testing would also be helpful. 
