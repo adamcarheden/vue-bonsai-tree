@@ -28,7 +28,7 @@
 						<div slot='content'>
 							<bonsai-tree>Grandson</bonsai-tree>
 							<bonsai-tree>Granddaughter
-								<span slot='content'>Great-granddaughter</slot>
+								<span slot='content'>Great-granddaughter</span>
 							</bonsai-tree>
 						</div>
 					</bonsai-tree>
