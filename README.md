@@ -15,11 +15,6 @@ npm install vue-bonsai-tree --save
 
 ## Use
 ``` html
-<script>
-	var app = new Vue({
-		el: '#app'
-	})
-</script>
 <div id='app'>
 	<bonsai-tree>
 		Parent
@@ -29,6 +24,16 @@ npm install vue-bonsai-tree --save
 		</div>
 	</bonsai-tree>
 </div>
+<script src='vue.js'></script>
+<script src='vue-bonsai-tree.js'></script>
+<script>
+	var app = new Vue({
+		el: '#app',
+		components: {
+			'bonsai-tree': window['vue-bonsai-tree'].BonsaiTree
+		}
+	})
+</script>
 ```
 
 ## Contribute
