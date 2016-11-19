@@ -1,6 +1,6 @@
 *.swp
 .DS_Store
-node_modules/
+node_modules
 dist/
 npm-debug.log
 test/unit/coverage
