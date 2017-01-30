@@ -6,7 +6,7 @@ If you can munge your data into a hierarchy of javascript objects in a prescribe
 
 ## Demo
 
-[Live Demo](https://plnkr.co/edit/OHcXtj?p=preview)
+[Live Demo](https://plnkr.co/edit/1Yo8BSAjEkGGZHDtiqdH?p=preview)
 
 ## Install
 ``` bash
